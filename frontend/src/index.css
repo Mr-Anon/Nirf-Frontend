@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html {
+    background-color: #3AAFA9 !important;
+    min-height: 100vh;
+  }
+
+#root {
+  height: 100%;
+}
+
+
+  
