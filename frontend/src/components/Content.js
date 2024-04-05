@@ -1,252 +1,19 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from 'react-router-dom'
-// import "../styles/Content.css";
-// import { FaFilter } from "react-icons/fa";
-// import { IoFilterSharp } from "react-icons/io5";
-// import SortContent from "./Sort";
-// import FilterConent from "./Filter";
-// import { fetchColleges } from "./Api";
-
-// const Content = (props) => {
-//     const navigate = useNavigate();
-//     const [toggleFilter, setToggleFilter] = useState(false);
-//     const [toggleSort, setToggleSort] = useState(false);
-//     const [colleges, setColleges] = useState([]);
-//     const Sort = () => {
-//         if (toggleFilter) {
-//             setToggleFilter(!toggleFilter)
-//         }
-//         setToggleSort(!toggleSort);
-//     }
-//     const Filter = () => {
-//         if (toggleSort) {
-//             setToggleSort(!toggleSort)
-//         }
-//         setToggleFilter(!toggleFilter);
-//     }
-//     const fetchData = async () => {
-//         const data = await fetchColleges();
-//         setColleges(data);
-//     };
-//     return (
-//         <div className="college-list-container">
-//             <div className="sidebar">
-//                 <FaFilter
-//                     role="button"
-//                     style={{ fontSize: '35px', marginTop: '15px' }}
-//                     onClick={() => { Sort() }}
-//                 />
-//                 <IoFilterSharp
-//                     role="button"
-//                     style={{ fontSize: '35px', marginTop: '30px' }}
-//                     onClick={() => { Filter() }}
-//                 />
-//             </div>
-//             {toggleFilter ? (
-//                 <FilterConent />
-//             ) :
-//                 toggleSort ? (
-//                     <SortContent />
-//                 ) :
-//                     (<></>)}
-//             <div className="content">
-//                 {/* Main content area */}
-//                 <h2>List of Colleges</h2>
-//                 <table>
-//                     <thead>
-//                         <tr>
-//                             <th>Name</th>
-//                             <th>Location</th>
-//                             <th>Ranking</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-//                         {/* Render college list items dynamically */}
-//                         {/* Example: */}
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         <tr>
-//                             <td>College 1</td>
-//                             <td>City, State</td>
-//                             <td>1</td>
-//                         </tr>
-//                         {/* Add more college list items as needed */}
-//                     </tbody>
-//                 </table>
-//             </div>
-//         </div>
-//     );
-// };
-// export default Content;
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import "../styles/Content.css";
+import { IoOptionsOutline } from "react-icons/io5";
+import { BsToggles } from "react-icons/bs";
 import { FaFilter } from "react-icons/fa";
-import { IoFilterSharp } from "react-icons/io5";
-import SortContent from "./Sort";
-import FilterConent from "./Filter";
+import PresetContent from "./PresetContent";
+import FilterContent from "./FilterContent";
+import ToggleContent from "./ToggleContent";
 import { fetchColleges } from "./Api";
 
 const Content = (props) => {
     const navigate = useNavigate();
+    const [togglePreset, setTogglePreset] = useState(false);
     const [toggleFilter, setToggleFilter] = useState(false);
-    const [toggleSort, setToggleSort] = useState(false);
+    const [toggleToggle, setToggleToggle] = useState(false);
     const [colleges, setColleges] = useState([]);
 
     // Function to fetch data from API
@@ -260,41 +27,91 @@ const Content = (props) => {
         fetchData();
     }, []);
 
-    const Sort = () => {
+    const Preset = () => {
         if (toggleFilter) {
             setToggleFilter(!toggleFilter)
         }
-        setToggleSort(!toggleSort);
+        else if (toggleToggle) {
+            setToggleToggle(!toggleToggle)
+        }
+        setTogglePreset(!togglePreset);
     }
 
     const Filter = () => {
-        if (toggleSort) {
-            setToggleSort(!toggleSort)
+        if (togglePreset) {
+            setTogglePreset(!togglePreset);
+        }
+        else if (toggleToggle) {
+            setToggleToggle(!toggleToggle)
         }
         setToggleFilter(!toggleFilter);
+    }
+    const Toggle = () => {
+        if (togglePreset) {
+            setTogglePreset(!togglePreset);
+        }
+        else if (toggleFilter) {
+            setToggleFilter(!toggleFilter);
+        }
+        setToggleToggle(!toggleToggle);
     }
 
     return (
         <div className="college-list-container">
             <div className="sidebar">
-                <FaFilter
+                {togglePreset? 
+                (<IoOptionsOutline
+                    className="after-click-icon"
                     role="button"
                     style={{ fontSize: '35px', marginTop: '15px' }}
-                    onClick={() => { Sort() }}
-                />
-                <IoFilterSharp
+                    onClick={() => { Preset() }}
+                />)
+                :(<IoOptionsOutline
+                    className="icon"
+                    role="button"
+                    style={{ fontSize: '35px', marginTop: '15px' }}
+                    onClick={() => { Preset() }}
+                    />)
+                }
+                {toggleFilter? 
+                (<FaFilter
+                    className="after-click-icon"
                     role="button"
                     style={{ fontSize: '35px', marginTop: '30px' }}
                     onClick={() => { Filter() }}
-                />
+                />)
+                :(<FaFilter
+                    className="icon"
+                    role="button"
+                    style={{ fontSize: '35px', marginTop: '30px' }}
+                    onClick={() => { Filter() }}
+                    />)
+                }
+                {toggleToggle? 
+                (<BsToggles
+                    className="after-click-icon"
+                    role="button"
+                    style={{ fontSize: '35px', marginTop: '30px' }}
+                    onClick={() => { Toggle() }}
+                />)
+                :(<BsToggles
+                    className="icon"
+                    role="button"
+                    style={{ fontSize: '35px', marginTop: '30px' }}
+                    onClick={() => { Toggle() }}
+                    />)
+                }
+
             </div>
-            {toggleFilter ? (
-                <FilterConent />
+            {togglePreset ? (
+                <PresetContent />
             ) :
-                toggleSort ? (
-                    <SortContent />
+                toggleFilter ? (
+                    <FilterContent />
                 ) :
-                    (<></>)}
+                    toggleToggle ? (
+                        <ToggleContent />) :
+                        (<></>)}
             <div className="content">
                 {/* Main content area */}
                 <h2>List of Colleges</h2>
@@ -312,7 +129,7 @@ const Content = (props) => {
                             <tr key={college.id}>
                                 <td>{college.name}</td>
                                 <td>{college.city}</td>
-                                <td>{college.weightedScore}</td>
+                                <td>{college.weightedScore}</td>/
                             </tr>
                         ))}
                     </tbody>
