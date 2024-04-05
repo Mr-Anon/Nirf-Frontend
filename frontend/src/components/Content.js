@@ -8,21 +8,43 @@ import PresetContent from "./PresetContent";
 import FilterContent from "./FilterContent";
 import ToggleContent from "./ToggleContent";
 import { fetchColleges } from "./Api";
+import DataTable from 'react-data-table-component';
 
 const Content = (props) => {
     const navigate = useNavigate();
     const [togglePreset, setTogglePreset] = useState(false);
     const [toggleFilter, setToggleFilter] = useState(false);
     const [toggleToggle, setToggleToggle] = useState(false);
-    const [colleges, setColleges] = useState([]);
+    const [colleges, setColleges] = useState([
+        {
+            name: "D",
+            location: "Dsia",
+            weightedScore: "1",
+        },
+        {
+            name: "G",
+            location: "Gsia",
+            weightedScore: "2",
+        },
+        {
+            name: "C",
+            location: "Csia",
+            weightedScore: "3",
+        },
+        {
+            name: "A",
+            location: "Asia",
+            weightedScore: "4",
+        },
+    ]);
+    const [pending, setPending] = useState(true);
 
-    // Function to fetch data from API
     const fetchData = async () => {
-        const data = await fetchColleges();
-        setColleges(data);
+        // const data = await fetchColleges();
+        // setColleges(data);
+        setPending(false);
     };
 
-    // useEffect hook to fetch data when component mounts
     useEffect(() => {
         fetchData();
     }, []);
@@ -55,50 +77,70 @@ const Content = (props) => {
         }
         setToggleToggle(!toggleToggle);
     }
-
+    const columns = () => [
+        {
+            name: 'Index',
+            selector: (row, index) => index + 1,
+        },
+        {
+          name: 'Name',
+          selector: row => row.name,
+          sortable: true,
+        },
+        {
+          name: "Location",
+          selector: row => row.location,
+          sortable: true,
+        },
+        {
+          name: "Rank",
+          sortable: true,
+          selector: row => row.weightedScore,
+        },
+      ];
     return (
         <div className="college-list-container">
             <div className="sidebar">
-                {togglePreset? 
-                (<IoOptionsOutline
-                    className="after-click-icon"
-                    role="button"
-                    style={{ fontSize: '35px', marginTop: '15px' }}
-                    onClick={() => { Preset() }}
-                />)
-                :(<IoOptionsOutline
-                    className="icon"
-                    role="button"
-                    style={{ fontSize: '35px', marginTop: '15px' }}
-                    onClick={() => { Preset() }}
+                {togglePreset ?
+                    (<IoOptionsOutline
+                        className="after-click-icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '15px' }}
+                        onClick={() => { Preset() }}
+                    />)
+                    : (<IoOptionsOutline
+                        className="icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '15px' }}
+                        onClick={() => { Preset() }}
                     />)
                 }
-                {toggleFilter? 
-                (<FaFilter
-                    className="after-click-icon"
-                    role="button"
-                    style={{ fontSize: '35px', marginTop: '30px' }}
-                    onClick={() => { Filter() }}
-                />)
-                :(<FaFilter
-                    className="icon"
-                    role="button"
-                    style={{ fontSize: '35px', marginTop: '30px' }}
-                    onClick={() => { Filter() }}
+                {toggleFilter ?
+                    (<FaFilter
+                        className="after-click-icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '30px' }}
+                        onClick={() => { Filter() }}
+                    />)
+                    : (<FaFilter
+                        className="icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '30px' }}
+                        onClick={() => { Filter() }}
                     />)
                 }
-                {toggleToggle? 
-                (<BsToggles
-                    className="after-click-icon"
-                    role="button"
-                    style={{ fontSize: '35px', marginTop: '30px' }}
-                    onClick={() => { Toggle() }}
-                />)
-                :(<BsToggles
-                    className="icon"
-                    role="button"
-                    style={{ fontSize: '35px', marginTop: '30px' }}
-                    onClick={() => { Toggle() }}
+                {toggleToggle ?
+                    (<BsToggles
+                        className="after-click-icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '30px' }}
+                        onClick={() => { Toggle() }}
+                    />)
+                    : (<BsToggles
+                        className="icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '30px' }}
+                        onClick={() => { Toggle() }}
                     />)
                 }
 
@@ -114,26 +156,15 @@ const Content = (props) => {
                         (<></>)}
             <div className="content">
                 {/* Main content area */}
-                <h2>List of Colleges</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Location</th>
-                            <th>Ranking</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Render college list items dynamically */}
-                        {colleges.map(college => (
-                            <tr key={college.id}>
-                                <td>{college.name}</td>
-                                <td>{college.city}</td>
-                                <td>{college.weightedScore}</td>/
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <DataTable
+                    title="List Of Colleges"
+                    columns={columns()}
+                    data={colleges}
+                    progressPending={pending}
+                    pagination
+                    highlightOnHover
+                    fixedHeader
+                />
             </div>
         </div>
     );
