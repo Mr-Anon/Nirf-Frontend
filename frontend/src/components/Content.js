@@ -40,8 +40,8 @@ const Content = (props) => {
     const [pending, setPending] = useState(true);
 
     const fetchData = async () => {
-        // const data = await fetchColleges();
-        // setColleges(data);
+        const data = await fetchColleges();
+        setColleges(data);
         setPending(false);
     };
 
@@ -83,21 +83,21 @@ const Content = (props) => {
             selector: (row, index) => index + 1,
         },
         {
-          name: 'Name',
-          selector: row => row.name,
-          sortable: true,
+            name: 'Name',
+            selector: row => row.name,
+            sortable: true,
         },
         {
-          name: "Location",
-          selector: row => row.location,
-          sortable: true,
+            name: "Location",
+            selector: row => row.city,
+            sortable: true,
         },
         {
-          name: "Rank",
-          sortable: true,
-          selector: row => row.weightedScore,
+            name: "Rank",
+            sortable: true,
+            selector: row => row.weightedScore,
         },
-      ];
+    ];
     return (
         <div className="college-list-container">
             <div className="sidebar">
