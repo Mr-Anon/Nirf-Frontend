@@ -6,7 +6,12 @@ import "../styles/Content.css";
 const FilterContent = (props) => {
   return (
     <div className="sidebar_toggle">
-        FilterConent
+        <h5 style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+          Filter Content
+        </h5>
+        <div>
+          
+        </div>
     </div>
   );
 };

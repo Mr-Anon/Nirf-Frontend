@@ -5,6 +5,15 @@ import { FaConnectdevelop } from "react-icons/fa6"
 
 
 const Header = (props) => {
+  const fetchData = async () => {
+    // const data = await fetchColleges();
+    // setColleges(data);
+    // setPending(false);
+};
+
+useEffect(() => {
+    fetchData();
+}, []);
   return (
     <header className="header">
       <div className="logo-container">
@@ -13,9 +22,6 @@ const Header = (props) => {
         <span>Find</span>
         <span>My College</span>
         </div>
-      </div>
-      <div className="search-bar">
-        <input type="text" placeholder="Search Colleges"  />
       </div>
     </header>
   );

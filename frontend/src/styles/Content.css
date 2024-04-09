@@ -1,4 +1,7 @@
-/* CollegeList.css */
+@font-face {
+  font-family: LOGO;
+  src: url("../fonts/BowlbyOneSC-Regular.ttf");
+}
 
 .college-list-container {
     display: flex;
@@ -60,4 +63,37 @@
   th {
     background-color: #f2f2f2;
   }
-  
+
+  h5 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: LOGO;
+  }
+  .Presets{
+    color: #f9f9f9;
+    padding: 10px;
+  }
+  .Preset{
+    color: #f9f9f9;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+   
+  :hover.Preset{
+    background-color: #141a1d;
+  }
+
+  .Toggle{
+    color: #f9f9f9;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .ToggleSwitch{
+    cursor: pointer;
+  }
