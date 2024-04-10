@@ -73,6 +73,7 @@
   .Presets{
     color: #f9f9f9;
     padding: 10px;
+    overflow-y: auto;
   }
   .Preset{
     color: #f9f9f9;
