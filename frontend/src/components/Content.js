@@ -4,9 +4,11 @@ import "../styles/Content.css";
 import { IoOptionsOutline } from "react-icons/io5";
 import { BsToggles } from "react-icons/bs";
 import { FaFilter } from "react-icons/fa";
+import { FaChartLine } from "react-icons/fa6";
 import PresetContent from "./PresetContent";
 import FilterContent from "./FilterContent";
 import ToggleContent from "./ToggleContent";
+import SkylineContent from "./SkylineContent";
 import { fetchColleges } from "./Api";
 import DataTable from 'react-data-table-component';
 
@@ -15,6 +17,7 @@ const Content = (props) => {
     const [togglePreset, setTogglePreset] = useState(false);
     const [toggleFilter, setToggleFilter] = useState(false);
     const [toggleToggle, setToggleToggle] = useState(false);
+    const [toggleSkyline, setToggleSkyline] = useState(false);
     const [colleges, setColleges] = useState([
         {
             name: "D",
@@ -40,8 +43,8 @@ const Content = (props) => {
     const [pending, setPending] = useState(true);
 
     const fetchData = async () => {
-        const data = await fetchColleges();
-        setColleges(data);
+        // const data = await fetchColleges();
+        // setColleges(data);
         setPending(false);
     };
 
@@ -56,6 +59,9 @@ const Content = (props) => {
         else if (toggleToggle) {
             setToggleToggle(!toggleToggle)
         }
+        else if (toggleSkyline) {
+            setToggleSkyline(!toggleSkyline)
+        }
         setTogglePreset(!togglePreset);
     }
 
@@ -66,6 +72,9 @@ const Content = (props) => {
         else if (toggleToggle) {
             setToggleToggle(!toggleToggle)
         }
+        else if (toggleSkyline) {
+            setToggleSkyline(!toggleSkyline)
+        }
         setToggleFilter(!toggleFilter);
     }
     const Toggle = () => {
@@ -75,7 +84,23 @@ const Content = (props) => {
         else if (toggleFilter) {
             setToggleFilter(!toggleFilter);
         }
+        else if (toggleSkyline) {
+            setToggleSkyline(!toggleSkyline)
+        }
         setToggleToggle(!toggleToggle);
+    }
+
+    const Skyline = () => {
+        if (togglePreset) {
+            setTogglePreset(!togglePreset);
+        }
+        else if (toggleFilter) {
+            setToggleFilter(!toggleFilter)
+        }
+        else if (toggleToggle){
+            setToggleToggle(!toggleToggle)
+        }
+        setToggleSkyline(!toggleSkyline);
     }
     const columns = () => [
         {
@@ -143,17 +168,36 @@ const Content = (props) => {
                         onClick={() => { Toggle() }}
                     />)
                 }
+                {toggleSkyline ?
+                    (<FaChartLine
+                        className="after-click-icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '30px' }}
+                        onClick={() => { Skyline() }}
+                    />)
+                    : (<FaChartLine
+                        className="icon"
+                        role="button"
+                        style={{ fontSize: '35px', marginTop: '30px' }}
+                        onClick={() => { Skyline() }}
+                    />)
+                }
 
             </div>
             {togglePreset ? (
                 <PresetContent />
             ) :
-                toggleFilter ? (
-                    <FilterContent />
-                ) :
-                    toggleToggle ? (
-                        <ToggleContent />) :
-                        (<></>)}
+            toggleFilter ? (
+                <FilterContent />
+            ) :
+            toggleToggle ? (
+                <ToggleContent />
+            ) :
+            toggleSkyline?(
+                <SkylineContent/>
+            ):
+            (<></>)
+            }
             <div className="content">
                 {/* Main content area */}
                 <DataTable
