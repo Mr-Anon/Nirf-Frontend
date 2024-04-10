@@ -97,3 +97,14 @@
   .ToggleSwitch{
     cursor: pointer;
   }
+
+  .Filter{
+    color: #f9f9f9;
+    padding: 10px;
+    display: flex;
+    flex-direction: Column;
+    justify-content: space-between;
+  }
+  :hover.Filter{
+    background-color: #141a1d;
+  }

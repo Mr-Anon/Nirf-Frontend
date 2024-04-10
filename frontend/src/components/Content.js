@@ -21,22 +21,22 @@ const Content = (props) => {
     const [colleges, setColleges] = useState([
         {
             name: "D",
-            location: "Dsia",
+            city: "Dsia",
             weightedScore: "1",
         },
         {
             name: "G",
-            location: "Gsia",
+            city: "Gsia",
             weightedScore: "2",
         },
         {
             name: "C",
-            location: "Csia",
+            city: "Csia",
             weightedScore: "3",
         },
         {
             name: "A",
-            location: "Asia",
+            city: "Asia",
             weightedScore: "4",
         },
     ]);
