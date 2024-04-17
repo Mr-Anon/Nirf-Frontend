@@ -43,8 +43,8 @@ const Content = (props) => {
     const [pending, setPending] = useState(true);
 
     const fetchData = async () => {
-        // const data = await fetchColleges();
-        // setColleges(data);
+        const data = await fetchColleges();
+        setColleges(data);
         setPending(false);
     };
 

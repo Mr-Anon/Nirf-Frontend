@@ -9,11 +9,11 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render( <React.StrictMode >
+root.render( 
                 <BrowserRouter basename="/" >
                     <App />
                 </BrowserRouter> 
-            </React.StrictMode>
+         
 );
 
 reportWebVitals();
