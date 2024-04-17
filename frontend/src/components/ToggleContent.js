@@ -52,6 +52,8 @@ const ToggleContent = () => {
 
       if (response.ok) {
         console.log("Toggle data posted successfully");
+        // setColleges()
+
         // Redirect or perform any other action upon successful posting
       } else {
         console.error("Failed to post toggle data");
