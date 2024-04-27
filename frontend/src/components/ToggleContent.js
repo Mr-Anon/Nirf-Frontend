@@ -1,43 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import "../styles/Content.css";
+import { fetchToggle } from "./Api";
 
 const ToggleContent = () => {
   const [toggleData, setToggleData] = useState([]);
   const [toggleStates, setToggleStates] = useState([]);
 
   // Fetch data from API when component mounts
+
+  const fetchToggles = async () => {
+    const data = await fetchToggle();
+    // console.log(data.toggles);
+    setToggleData(data.toggles);
+    setToggleStates(data.toggles.map(() => false));
+    // console.log(toggleStates)
+  }
   useEffect(() => {
-    fetchToggleData();
+    fetchToggles();
   }, []);
 
-  const fetchToggleData = async () => {
-    try {
-      // Fetch data from API
-      const response = await fetch("http://localhost:8000/api/getToggles");
-      const data = await response.json();
-      console.log(data);
-      // Set the toggle data
-      setToggleData(data.toggles);
-      // Set initial toggle states
-      await setToggleStates(data.toggles.map(() => false));
-      await console.log(toggleStates)
-    } catch (error) {
-      console.error("Error fetching toggle data:", error);
-    }
-  };
 
-  const toggleSwitchHandler = async (index) => {
+  const toggleSwitchHandler = (index) => {
+    // console.log(index);
     const newToggleStates = [...toggleStates];
     newToggleStates[index] = !toggleStates[index];
-    await setToggleStates(newToggleStates);
-    await console.log(newToggleStates[index])
+    setToggleStates(newToggleStates);
+    console.log(newToggleStates)
   };
 
   const handleApply = async () => {
     try {
       const toggleStateData = toggleData.reduce((acc, toggle, index) => {
         acc[toggle] = toggleStates[index];
+        // console.log(acc);
         return acc;
       }, {});
       console.log(toggleStateData)
@@ -49,10 +45,11 @@ const ToggleContent = () => {
         },
         body: JSON.stringify(toggleStateData)
       });
-
+      
       if (response.ok) {
         console.log("Toggle data posted successfully");
-        // setColleges()
+        const data = await response.json();
+        console.log(data);
 
         // Redirect or perform any other action upon successful posting
       } else {
@@ -69,23 +66,26 @@ const ToggleContent = () => {
       <div className="Presets">
         {toggleData.map((toggle, index) => (
           <div className="Toggle" key={index}>
-            <div>{toggle}</div>
+            <div >{toggle}</div>
             <div
-              className="ToggleSwitch"
-              
+              class="transform hover:scale-105" onClick={() => { toggleSwitchHandler(index) }} style={{ cursor: "pointer" }}
             >
-              {/* {!toggleStates[index] ? ( */}
-                <label className="inline-flex items-center cursor-pointer">
-                  <input type="checkbox" value="" className="sr-only peer" />
-                  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-                  onClick={() => toggleSwitchHandler(index)}></div>
-                </label>
-              {/* ) : (
-                <label className="inline-flex items-center cursor-pointer">
-                  <input type="checkbox" value="" className="sr-only peer" />
-                  <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                </label>
-              )} */}
+              {toggleStates[index] === false ? (
+                <div className="d-flex" >
+                  <div>
+                    <div className="box bg-[#B0BEC5] h-8 w-14 rounded-full"></div>
+                    <div class="dot absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full !bg-white"></div>
+                  </div>
+                </div>
+              ) : (
+                <div className="d-flex">
+                  <div className="box bg-[#1A237E] block h-8 w-14 rounded-full"></div>
+                  <div
+                    class="dot absolute top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white "
+                    style={{ right: 3 }}
+                  ></div>
+                </div>
+              )}
             </div>
           </div>
         ))}

@@ -25,10 +25,11 @@
     color: #908f8f;
   }
   .sidebar_toggle {
-    width:250px;
+    width:400px;
     height: 100%;
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
     background-color: #17252A;
     padding: 20px;
     position: sticky;

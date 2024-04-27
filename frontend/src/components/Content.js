@@ -18,28 +18,7 @@ const Content = (props) => {
     const [toggleFilter, setToggleFilter] = useState(false);
     const [toggleToggle, setToggleToggle] = useState(false);
     const [toggleSkyline, setToggleSkyline] = useState(false);
-    const [colleges, setColleges] = useState([
-        {
-            name: "D",
-            city: "Dsia",
-            weightedScore: "1",
-        },
-        {
-            name: "G",
-            city: "Gsia",
-            weightedScore: "2",
-        },
-        {
-            name: "C",
-            city: "Csia",
-            weightedScore: "3",
-        },
-        {
-            name: "A",
-            city: "Asia",
-            weightedScore: "4",
-        },
-    ]);
+    const [colleges, setColleges] = useState([]);
     const [pending, setPending] = useState(true);
 
     const fetchData = async () => {
