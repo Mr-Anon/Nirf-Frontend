@@ -11,6 +11,7 @@ import ToggleContent from "./ToggleContent";
 import SkylineContent from "./SkylineContent";
 import { fetchColleges } from "./Api";
 import DataTable from 'react-data-table-component';
+import { fetchToggle } from "./Api";
 
 const Content = (props) => {
     const navigate = useNavigate();
@@ -20,18 +21,61 @@ const Content = (props) => {
     const [toggleSkyline, setToggleSkyline] = useState(false);
     const [colleges, setColleges] = useState([]);
     const [pending, setPending] = useState(true);
+    const [toggleData, setToggleData] = useState([]);
+    const [toggleStates, setToggleStates] = useState([]);
+
+    const handleApply = async () => {
+        try {
+          const toggleStateData = toggleData.reduce((acc, toggle, index) => {
+            acc[toggle] = toggleStates[index];
+            // console.log(acc);
+            return acc;
+          }, {});
+          // console.log(toggleStateData)
+          // Send POST request to API
+          const response = await fetch("http://localhost:8000/api/getToggled", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(toggleStateData)
+          });
     
+          if (response.ok) {
+            console.log("Toggle data posted successfully");
+            const data = await response.json();
+            console.log(data);
+            setColleges(data)
     
+            // Redirect or perform any other action upon successful posting
+          } else {
+            console.error("Failed to post toggle data");
+          }
+        } catch (error) {
+          console.error("Error posting toggle data:", error);
+        }
+      };
 
     const fetchData = async () => {
         const data = await fetchColleges();
+        // setToggleData(data)
         setColleges(data);
         setPending(false);
     };
 
 
+    const fetchToggles = async () => {
+        const data = await fetchToggle();
+        console.log("ppp",data);
+        setToggleData(data.toggles);
+        setToggleStates(data.toggles.map(() => false));
+        // console.log(toggleStates)
+    }
+
+
     useEffect(() => {
         fetchData();
+        fetchToggles();
     }, []);
 
 
@@ -149,7 +193,7 @@ const Content = (props) => {
                         className="icon"
                         role="button"
                         style={{ fontSize: '35px', marginTop: '30px' }}
-                        onClick={() => { Toggle()}}
+                        onClick={() => { Toggle() }}
                     />)
                 }
                 {toggleSkyline ?
@@ -175,7 +219,7 @@ const Content = (props) => {
                     <FilterContent />
                 ) :
                     toggleToggle ? (
-                        <ToggleContent setColleges={setColleges} />
+                        <ToggleContent toggleData = {toggleData} toggleStates = {toggleStates} setToggleStates={setToggleStates} handleApply={handleApply} />
                     ) :
                         toggleSkyline ? (
                             <SkylineContent />
