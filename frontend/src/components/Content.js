@@ -20,6 +20,8 @@ const Content = (props) => {
     const [toggleSkyline, setToggleSkyline] = useState(false);
     const [colleges, setColleges] = useState([]);
     const [pending, setPending] = useState(true);
+    
+    
 
     const fetchData = async () => {
         const data = await fetchColleges();
@@ -27,9 +29,12 @@ const Content = (props) => {
         setPending(false);
     };
 
+
     useEffect(() => {
         fetchData();
     }, []);
+
+
 
     const Preset = () => {
         if (toggleFilter) {
@@ -76,7 +81,7 @@ const Content = (props) => {
         else if (toggleFilter) {
             setToggleFilter(!toggleFilter)
         }
-        else if (toggleToggle){
+        else if (toggleToggle) {
             setToggleToggle(!toggleToggle)
         }
         setToggleSkyline(!toggleSkyline);
@@ -144,7 +149,7 @@ const Content = (props) => {
                         className="icon"
                         role="button"
                         style={{ fontSize: '35px', marginTop: '30px' }}
-                        onClick={() => { Toggle() }}
+                        onClick={() => { Toggle()}}
                     />)
                 }
                 {toggleSkyline ?
@@ -166,16 +171,16 @@ const Content = (props) => {
             {togglePreset ? (
                 <PresetContent />
             ) :
-            toggleFilter ? (
-                <FilterContent />
-            ) :
-            toggleToggle ? (
-                <ToggleContent />
-            ) :
-            toggleSkyline?(
-                <SkylineContent/>
-            ):
-            (<></>)
+                toggleFilter ? (
+                    <FilterContent />
+                ) :
+                    toggleToggle ? (
+                        <ToggleContent setColleges={setColleges} />
+                    ) :
+                        toggleSkyline ? (
+                            <SkylineContent />
+                        ) :
+                            (<></>)
             }
             <div className="content">
                 {/* Main content area */}

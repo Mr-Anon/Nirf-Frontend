@@ -45,7 +45,7 @@
     color: #f9f9f9
   }
   .content {
-    margin-top: 15px;
+    /* margin-top: 15px; */
     flex: 11;
     padding: 20px;
     overflow-y: scroll;

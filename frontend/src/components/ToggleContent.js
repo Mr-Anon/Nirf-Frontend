@@ -3,24 +3,22 @@ import { useNavigate } from 'react-router-dom'
 import "../styles/Content.css";
 import { fetchToggle } from "./Api";
 
-const ToggleContent = () => {
+const ToggleContent = ({ setColleges }) => {
   const [toggleData, setToggleData] = useState([]);
   const [toggleStates, setToggleStates] = useState([]);
 
-  // Fetch data from API when component mounts
 
   const fetchToggles = async () => {
     const data = await fetchToggle();
-    // console.log(data.toggles);
+    console.log(data.toggles);
     setToggleData(data.toggles);
     setToggleStates(data.toggles.map(() => false));
-    // console.log(toggleStates)
+    console.log(toggleStates)
   }
+
   useEffect(() => {
     fetchToggles();
   }, []);
-
-
   const toggleSwitchHandler = (index) => {
     // console.log(index);
     const newToggleStates = [...toggleStates];
@@ -45,11 +43,12 @@ const ToggleContent = () => {
         },
         body: JSON.stringify(toggleStateData)
       });
-      
+
       if (response.ok) {
         console.log("Toggle data posted successfully");
         const data = await response.json();
         console.log(data);
+        setColleges(data)
 
         // Redirect or perform any other action upon successful posting
       } else {
