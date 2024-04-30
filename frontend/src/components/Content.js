@@ -63,10 +63,9 @@ const Content = (props) => {
         setPending(false);
     };
 
-
     const fetchToggles = async () => {
         const data = await fetchToggle();
-        console.log("ppp",data);
+        // console.log("ppp",data);
         setToggleData(data.toggles);
         setToggleStates(data.toggles.map(() => false));
         // console.log(toggleStates)
@@ -79,6 +78,10 @@ const Content = (props) => {
     }, []);
 
 
+    const handleRowClicked = (row) => {
+        // console.log("rowClicked", row.name);
+        navigate(`college/${row.name}`);
+    }
 
     const Preset = () => {
         if (toggleFilter) {
@@ -232,6 +235,7 @@ const Content = (props) => {
                     title="List Of Colleges"
                     columns={columns()}
                     data={colleges}
+                    onRowClicked={handleRowClicked}
                     progressPending={pending}
                     pagination
                     highlightOnHover
