@@ -1,60 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import "../styles/Content.css";
-import {fetchSkylineData} from "./Api";
 
-const SkylineContent = () => {
-  const [skylineData, setSkylineData] = useState([]);
-  const [skylineStates, setSkylineStates] = useState([]);
 
-  const fetchSkyline = async () => {
-    const data = await fetchSkylineData();
-    // console.log(data);
-    setSkylineData(data.skyline);
-    setSkylineStates(data.skyline.map(() => false));
-    // console.log(skylineStates)
-  }
-  useEffect(() => {
-    fetchSkyline();
-  }, []);
+const SkylineContent = ({ skylineData, skylineStates, setSkylineStates, handleApply }) => {
 
-  
-
-  const skylineSwitchHandler =(index) => {
+  const skylineSwitchHandler = (index) => {
     const newskylineStates = [...skylineStates];
     newskylineStates[index] = !skylineStates[index];
     setSkylineStates(newskylineStates);
     console.log(newskylineStates[index])
   };
 
-  const handleApply = async () => {
-    try {
-      const skylineStateData = skylineData.reduce((acc, toggle, index) => {
-        acc[toggle] = skylineStates[index];
-        return acc;
-      }, {});
-      console.log(skylineStateData)
-      // Send POST request to API
-      const response = await fetch("http://localhost:8000/api/getToggled", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(skylineStateData)
-      });
+  // const handleApply = async () => {
+  //   try {
+  //     const skylineStateData = skylineData.reduce((acc, toggle, index) => {
+  //       acc[toggle] = skylineStates[index];
+  //       return acc;
+  //     }, {});
+  //     console.log(skylineStateData)
+  //     // Send POST request to API
+  //     const response = await fetch("http://localhost:8000/api/getToggled", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify(skylineStateData)
+  //     });
 
-      if (response.ok) {
-        console.log("Toggle data posted successfully");
-        // const data = response.json();
-        // console.log(data);
-        // Redirect or perform any other action upon successful posting
-      } else {
-        console.error("Failed to post toggle data");
-      }
-    } catch (error) {
-      console.error("Error posting toggle data:", error);
-    }
-  };
+  //     if (response.ok) {
+  //       console.log("Toggle data posted successfully");
+  //       // const data = response.json();
+  //       // console.log(data);
+  //       // Redirect or perform any other action upon successful posting
+  //     } else {
+  //       console.error("Failed to post toggle data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error posting toggle data:", error);
+  //   }
+  // };
 
   return (
     <div className="sidebar_toggle">

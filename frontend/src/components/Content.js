@@ -12,6 +12,7 @@ import SkylineContent from "./SkylineContent";
 import { fetchColleges } from "./Api";
 import DataTable from 'react-data-table-component';
 import { fetchToggle } from "./Api";
+import {fetchSkylineData} from "./Api";
 
 const Content = (props) => {
     const navigate = useNavigate();
@@ -23,26 +24,36 @@ const Content = (props) => {
     const [pending, setPending] = useState(true);
     const [toggleData, setToggleData] = useState([]);
     const [toggleStates, setToggleStates] = useState([]);
+    const [skylineData, setSkylineData] = useState([]);
+    const [skylineStates, setSkylineStates] = useState([]);
 
     const handleApply = async () => {
         try {
-          const toggleStateData = toggleData.reduce((acc, toggle, index) => {
-            acc[toggle] = toggleStates[index];
-            // console.log(acc);
+          const skylineStateData = await skylineData.reduce((acc, toggle, index) => {
+            acc[toggle] = skylineStates[index];
+            console.log(acc);
             return acc;
           }, {});
-          // console.log(toggleStateData)
+          console.log(skylineStateData)
+          const toggleStateData = await toggleData.reduce((acc, toggle, index) => {
+            acc[toggle] = toggleStates[index];
+            console.log(acc);
+            return acc;
+          }, {});
+          console.log(toggleStateData)
+
           // Send POST request to API
-          const response = await fetch("http://localhost:8000/api/getToggled", {
+          const response = await fetch("http://localhost:8000/api/getToggledColleges", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(toggleStateData)
+            body: JSON.stringify({toggles: toggleStateData, skyline: skylineStateData})
           });
     
           if (response.ok) {
             console.log("Toggle data posted successfully");
+            console.log(response)            
             const data = await response.json();
             console.log(data);
             setColleges(data)
@@ -66,15 +77,23 @@ const Content = (props) => {
     const fetchToggles = async () => {
         const data = await fetchToggle();
         // console.log("ppp",data);
-        setToggleData(data.toggles);
-        setToggleStates(data.toggles.map(() => false));
-        // console.log(toggleStates)
+        await setToggleData(data.toggles);
+        await setToggleStates(data.toggles.map(() => false));
+        // console.log(toggleStates);
     }
 
+    const fetchSkyline = async () => {
+        const data = await fetchSkylineData();
+        console.log("ppp",data);
+        await setSkylineData(data.skyline);
+        await setSkylineStates(data.skyline.map(() => false));
+        console.log(skylineData);
+    }
 
     useEffect(() => {
         fetchData();
         fetchToggles();
+        fetchSkyline();
     }, []);
 
 
@@ -225,7 +244,7 @@ const Content = (props) => {
                         <ToggleContent toggleData = {toggleData} toggleStates = {toggleStates} setToggleStates={setToggleStates} handleApply={handleApply} />
                     ) :
                         toggleSkyline ? (
-                            <SkylineContent />
+                            <SkylineContent skylineData = {skylineData} skylineStates = {skylineStates} setSkylineStates={setSkylineStates} handleApply={handleApply}/>
                         ) :
                             (<></>)
             }
