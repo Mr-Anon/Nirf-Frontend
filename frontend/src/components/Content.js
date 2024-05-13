@@ -13,6 +13,7 @@ import { fetchColleges } from "./Api";
 import DataTable from 'react-data-table-component';
 import { fetchToggle } from "./Api";
 import {fetchSkylineData} from "./Api";
+import {fetchFilter} from "./Api";
 
 const Content = (props) => {
     const navigate = useNavigate();
@@ -26,7 +27,9 @@ const Content = (props) => {
     const [toggleStates, setToggleStates] = useState([]);
     const [skylineData, setSkylineData] = useState([]);
     const [skylineStates, setSkylineStates] = useState([]);
-
+    const [filterData, setFilterData] = useState(()=>{})
+    const [filters, setFilters] = useState(()=>{})
+    
     const handleApply = async () => {
         try {
           const skylineStateData = await skylineData.reduce((acc, toggle, index) => {
@@ -48,7 +51,7 @@ const Content = (props) => {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify({toggles: toggleStateData, skyline: skylineStateData})
+            body: JSON.stringify({toggles: toggleStateData, skyline: skylineStateData, filters: filterData})
           });
     
           if (response.ok) {
@@ -84,16 +87,26 @@ const Content = (props) => {
 
     const fetchSkyline = async () => {
         const data = await fetchSkylineData();
-        console.log("ppp",data);
+        // console.log("ppp",data);
         await setSkylineData(data.skyline);
         await setSkylineStates(data.skyline.map(() => false));
         console.log(skylineData);
     }
 
+    const fetchFilters = async () => {
+        const data = await fetchFilter();
+        await console.log("ppp",data);
+        await setFilters(data.filters)
+        await setFilterData(data.filters);
+        console.log(filters)
+    }
+
+
     useEffect(() => {
         fetchData();
         fetchToggles();
         fetchSkyline();
+        fetchFilters();
     }, []);
 
 
@@ -238,7 +251,7 @@ const Content = (props) => {
                 <PresetContent />
             ) :
                 toggleFilter ? (
-                    <FilterContent />
+                    <FilterContent filters = {filters} filterData = {filterData} setFilterData = {setFilterData} handleApply = {handleApply} />
                 ) :
                     toggleToggle ? (
                         <ToggleContent toggleData = {toggleData} toggleStates = {toggleStates} setToggleStates={setToggleStates} handleApply={handleApply} />
