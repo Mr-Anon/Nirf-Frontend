@@ -22,7 +22,7 @@ const Home = () => {
             height: '100%',
         }}>
             <Header onOpenModal={handleOpenModal} />
-            <AddCutoffs show={showModal} onClose={handleCloseModal} />
+            <AddCutoffs show={showModal} onClose={handleCloseModal}/>
             <Content />
             <Footer />
         </div>

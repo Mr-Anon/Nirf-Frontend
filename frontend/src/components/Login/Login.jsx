@@ -28,7 +28,8 @@ export const Login = (props) => {
 
       if (!data.error) {
         localStorage.setItem("isloggedin", true);
-        localStorage.setItem("isAdmin", data.isadmin);
+        localStorage.setItem("isAdmin", data.isAdmin);
+        localStorage.setItem("token", data.token);
         navigate("/"); // navigate to dashboard
       }
       else {

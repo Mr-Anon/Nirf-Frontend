@@ -1,26 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Import useEffect from react package
 import "../../styles/Main/Header.css";
+import { fetchCutoffFormValues } from "../Api";
+
 
 const Modal = ({ show, onClose }) => {
-
-    const [formData, setFormData] = useState({
+        const [formData, setFormData] = useState({
         instituteName: '',
         academicProgramName: '',
         quota: '',
         seatType: '',
         gender: '',
         openingRank: '',
-        closingRank: ''
+        closingRank: '',
+        link: ''
     });
+    const [genders, setGenders] = useState([]);
+    const [seatType, setSeatType] = useState([]);
+    const [quotas, setQuotas] = useState([]);
+    const [instituteNames, setInstituteNames] = useState([]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchCutoffFormValues();
+            setGenders(data.genders);
+            setSeatType(data.seatTypes);
+            setQuotas(data.quotas);
+            setInstituteNames(data.collegeNames);
+        };
+        fetchData();
+    }, []);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission
+        const response = fetch("http://localhost:8000/api/addUserCutoff", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({institute_name: formData.instituteName, Academic_Program_Name: formData.academicProgramName, Quota: formData.quota, Seat_Type: formData.seatType, Gender: formData.gender, Opening_Rank: formData.openingRank, Closing_Rank: formData.closingRank, link: formData.link, token: localStorage.getItem("token")})
+          });
+    
+          if (response.ok) {
+            console.log(response)
+            onClose();            
+            // Redirect or perform any other action upon successful posting
+          } else {
+            console.error("Failed to post toggle data");
+          }
         console.log(formData);
     };
     const inputClass = "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
@@ -42,7 +73,7 @@ const Modal = ({ show, onClose }) => {
                                 </h2>
                                 <div className="mt-2">
                                     <form >
-                                        <input
+                                        <select
                                             type="text"
                                             placeholder="Institute Name"
                                             id="instituteName"
@@ -50,7 +81,12 @@ const Modal = ({ show, onClose }) => {
                                             value={formData.instituteName}
                                             onChange={handleChange}
                                             className={inputClass}
-                                        />
+                                        >
+                                            <option value="" disabled>Select Institute</option>
+                                            {instituteNames.map((instituteName, index) => (
+                                                <option key={index} value={instituteName}>{instituteName}</option>
+                                            ))}
+                                        </select>
                                         <input
                                             type="text"
                                             placeholder="Academic Program Name"
@@ -60,7 +96,7 @@ const Modal = ({ show, onClose }) => {
                                             onChange={handleChange}
                                             className={inputClass}
                                         />
-                                        <input
+                                        <select
                                             type="text"
                                             placeholder="Quota"
                                             id="quota"
@@ -68,8 +104,13 @@ const Modal = ({ show, onClose }) => {
                                             value={formData.quota}
                                             onChange={handleChange}
                                             className={inputClass}
-                                        />
-                                        <input
+                                        >
+                                            <option value="" disabled>Select Quota</option>
+                                            {quotas.map((quota, index) => (
+                                                <option key={index} value={quota}>{quota}</option>
+                                            ))}
+                                        </select>
+                                        <select
                                             type="text"
                                             placeholder="Seat Type"
                                             id="seatType"
@@ -77,7 +118,13 @@ const Modal = ({ show, onClose }) => {
                                             value={formData.seatType}
                                             onChange={handleChange}
                                             className={inputClass}
-                                        />
+                                        >
+                                            <option value="" disabled>Select Seat Type</option>
+                                            {seatType.map((type, index) => (
+                                                <option key={index} value={type}>{type}</option>
+                                            ))}
+                                        </select>
+
                                         <select
                                             id="gender"
                                             name="gender"
@@ -86,9 +133,9 @@ const Modal = ({ show, onClose }) => {
                                             className={inputClass}
                                         >
                                             <option value="" disabled>Select Gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
+                                            {genders.map((gender, index) => (
+                                                <option key={index} value={gender}>{gender}</option>
+                                            ))}
                                         </select>
                                         <input
                                             type="number"
@@ -108,7 +155,16 @@ const Modal = ({ show, onClose }) => {
                                             onChange={handleChange}
                                             className={inputClass}
                                         />
-                                        
+                                        <input
+                                            type="text"
+                                            placeholder="Link"
+                                            id="link"
+                                            name="link"
+                                            value={formData.link}
+                                            onChange={handleChange}
+                                            className={inputClass}
+                                        />
+
                                     </form>
                                 </div>
                             </div>
