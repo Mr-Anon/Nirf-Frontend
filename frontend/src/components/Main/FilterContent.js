@@ -104,6 +104,9 @@ const FilterContent = ({ filters, filterData, setFilterData, handleApply }) => {
       [key]: value,
     }));
   };
+  // handleSliderChange("cutoff_rank", cutoff);
+  console.log(filterData);
+  
 
   return (
     <div className="sidebar_toggle">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
-import "../styles/Content.css";
+import "../../styles/Main/Content.css";
 
 
 const ToggleContent = ({ toggleData, toggleStates, setToggleStates, handleApply}) => {

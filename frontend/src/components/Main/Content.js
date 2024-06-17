@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
-import "../styles/Content.css";
+import "../../styles/Main/Content.css";
 import { IoOptionsOutline } from "react-icons/io5";
 import { BsToggles } from "react-icons/bs";
 import { FaFilter } from "react-icons/fa";
@@ -9,11 +9,11 @@ import PresetContent from "./PresetContent";
 import FilterContent from "./FilterContent";
 import ToggleContent from "./ToggleContent";
 import SkylineContent from "./SkylineContent";
-import { fetchColleges } from "./Api";
+import { fetchColleges } from "../Api";
 import DataTable from 'react-data-table-component';
-import { fetchToggle } from "./Api";
-import {fetchSkylineData} from "./Api";
-import {fetchFilter} from "./Api";
+import { fetchToggle } from "../Api";
+import {fetchSkylineData} from "../Api";
+import {fetchFilter} from "../Api";
 
 const Content = (props) => {
     const navigate = useNavigate();
@@ -27,8 +27,8 @@ const Content = (props) => {
     const [toggleStates, setToggleStates] = useState([]);
     const [skylineData, setSkylineData] = useState([]);
     const [skylineStates, setSkylineStates] = useState([]);
-    const [filterData, setFilterData] = useState(()=>{})
-    const [filters, setFilters] = useState(()=>{})
+    const [filterData, setFilterData] = useState(()=>{});
+    const [filters, setFilters] = useState(()=>{});
     
     const handleApply = async () => {
         try {
@@ -59,8 +59,11 @@ const Content = (props) => {
             console.log(response)            
             const data = await response.json();
             console.log(data);
-            setColleges(data)
-    
+            setColleges(data.college)
+            setFilters(prevState => ({
+                ...prevState,
+                ['cutoff_rank']: data.cutoff,
+              }));
             // Redirect or perform any other action upon successful posting
           } else {
             console.error("Failed to post toggle data");
@@ -73,7 +76,7 @@ const Content = (props) => {
     const fetchData = async () => {
         const data = await fetchColleges();
         // setToggleData(data)
-        setColleges(data);
+        setColleges(data.college);
         setPending(false);
     };
 
@@ -95,10 +98,11 @@ const Content = (props) => {
 
     const fetchFilters = async () => {
         const data = await fetchFilter();
-        await console.log("ppp",data);
+        // await console.log("ppp",data);
         await setFilters(data.filters)
         await setFilterData(data.filters);
         console.log(filters)
+        console.log(filterData)
     }
 
 

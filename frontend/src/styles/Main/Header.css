@@ -1,0 +1,79 @@
+/* Header.css */
+@font-face {
+    font-family: LOGO;
+    src: url("../../fonts/BowlbyOneSC-Regular.ttf");
+}
+.header {
+    display: flex;
+    /* margin-top: 15px; */
+    justify-content: center;
+    align-items: center;
+    background-color:  #141a1d;
+    color: #FEFFFF;
+    padding: 10px;
+    padding-right:2rem;
+    position: sticky;
+  }
+  
+  .logo-container {
+    display: flex;
+    flex:7;
+    justify-content: right;
+    align-items: center;
+  }
+  .login_header{
+    display: flex;
+    flex:5;
+    align-items: center;
+    justify-content: right;
+  }
+
+  .login_header_after{
+    display: flex;
+    flex:1.5;
+    align-items: center;
+    justify-content: right;
+  }
+
+  .login_header_icon{
+    display: flex;
+    flex:3.5;
+    align-items: center;
+    justify-content: right;
+    cursor: pointer;
+  }
+
+
+  .login {
+    border-radius: 10px;
+    width: auto;
+    background: none;
+    color:white;
+    font-size: 20px;
+    padding: 0.5rem;
+    font-family: myFirstFont;
+    transition: 0.3s;
+    font-family: LOGO;
+    /* margin-bottom: 1rem; */
+  }
+  .login:hover {
+    background: white;
+    color: #141a1d;
+  }
+  
+  .logo {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    margin-right: 10px;
+  }
+  .logo-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    font-family: LOGO;
+
+  }
+
+  
