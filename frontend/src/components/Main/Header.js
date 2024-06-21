@@ -18,6 +18,11 @@ const Header = ({ onOpenModal }) => {
 
   useEffect(() => {
     fetchData();
+    // console.log("hello i am here");
+    console.log(localStorage.getItem("isAdmin"));
+    setIsAdmin(localStorage.getItem("isAdmin"));
+    console.log(isAdmin);
+
   }, []);
 
   const handleLogin = () => {
@@ -27,6 +32,7 @@ const Header = ({ onOpenModal }) => {
   const handleLogout = () => {
     localStorage.removeItem("isloggedin");
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("token");
     window.location.reload();
   };
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
@@ -51,7 +57,7 @@ const Header = ({ onOpenModal }) => {
             </button>
           </div>
         ) : (
-          !isAdmin ? (
+          isAdmin ? (
             // if user is admin
             <div className="login_header">
               <button className="login"

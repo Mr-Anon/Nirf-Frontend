@@ -14,6 +14,7 @@ import DataTable from 'react-data-table-component';
 import { fetchToggle } from "../Api";
 import {fetchSkylineData} from "../Api";
 import {fetchFilter} from "../Api";
+import {fetchDefaultWeights} from "../Api";
 
 const Content = (props) => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Content = (props) => {
     const [toggleSkyline, setToggleSkyline] = useState(false);
     const [colleges, setColleges] = useState([]);
     const [pending, setPending] = useState(true);
+    const [weights,setWeights] = useState(()=>({}));
     const [toggleData, setToggleData] = useState([]);
     const [toggleStates, setToggleStates] = useState([]);
     const [skylineData, setSkylineData] = useState([]);
@@ -31,6 +33,8 @@ const Content = (props) => {
     const [filters, setFilters] = useState(()=>{});
     
     const handleApply = async () => {
+        console.log("Apply clicked");
+        console.log(weights);
         try {
           const skylineStateData = await skylineData.reduce((acc, toggle, index) => {
             acc[toggle] = skylineStates[index];
@@ -51,7 +55,7 @@ const Content = (props) => {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify({toggles: toggleStateData, skyline: skylineStateData, filters: filterData})
+            body: JSON.stringify({toggles: toggleStateData, skyline: skylineStateData, filters: filterData, weights: weights})
           });
     
           if (response.ok) {
@@ -79,6 +83,13 @@ const Content = (props) => {
         setColleges(data.college);
         setPending(false);
     };
+
+    const fetchWeights = async () => {
+        const data = await fetchDefaultWeights();
+        // console.log("ppp",data);
+        await setWeights(data.weights);
+        console.log(weights);
+    }
 
     const fetchToggles = async () => {
         const data = await fetchToggle();
@@ -108,6 +119,7 @@ const Content = (props) => {
 
     useEffect(() => {
         fetchData();
+        fetchWeights();
         fetchToggles();
         fetchSkyline();
         fetchFilters();
@@ -252,7 +264,7 @@ const Content = (props) => {
 
             </div>
             {togglePreset ? (
-                <PresetContent />
+                <PresetContent weights = {weights} setWeights = {setWeights} handleApply = {handleApply}/>
             ) :
                 toggleFilter ? (
                     <FilterContent filters = {filters} filterData = {filterData} setFilterData = {setFilterData} handleApply = {handleApply} />

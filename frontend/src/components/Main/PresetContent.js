@@ -4,77 +4,33 @@ import "../../styles/Main/Content.css";
 
 
 
-const PresetContent = (props) => {
+const PresetContent = ({weights, setWeights, handleApply}) => {
   return (
     <div className="sidebar_toggle">
       <h5>
-        Presets
+        Weights
       </h5>
       <div className="Presets">
-        <div className="Preset">
-          Option 1
-        </div>
-        <div className="Preset">
-          Option 2
-        </div>
-        <div className="Preset">
-          Option 3
-        </div>
-        <div className="Preset">
-          Option 4
-        </div>
-        {/* <div className="Preset">
-          Option 1
-        </div>
-        <div className="Preset">
-          Option 2
-        </div>
-        <div className="Preset">
-          Option 3
-        </div>
-        <div className="Preset">
-          Option 4
-        </div>
-        <div className="Preset">
-          Option 1
-        </div>
-        <div className="Preset">
-          Option 2
-        </div>
-        <div className="Preset">
-          Option 3
-        </div>
-        <div className="Preset">
-          Option 4
-        </div>
-        <div className="Preset">
-          Option 1
-        </div>
-        <div className="Preset">
-          Option 2
-        </div>
-        <div className="Preset">
-          Option 3
-        </div>
-        <div className="Preset">
-          Option 4
-        </div>
-        <div className="Preset">
-          Option 1
-        </div>
-        <div className="Preset">
-          Option 2
-        </div>
-        <div className="Preset">
-          Option 3
-        </div>
-        <div className="Preset">
-          Option 4
-        </div> */}
+        {Object.keys(weights).map((key) => (
+          <div className="Preset" key={key}>
+            {key} <input
+              min = "0"
+              max = "1"
+              step = "0.1"
+              type="number"
+              className="w-20 h-8 rounded-md border border-gray-300 dark:border-gray-700 text-black dark:text-white"
+              value={weights[key]}
+              onChange={(e) => setWeights({ ...weights, [key]: e.target.value })}
+            />
+          </div>
+        ))}
       </div>
-      <button type="button" class="text-white bg-gray-800 mt-auto hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mb-4 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-        style={{fontFamily:"LOGO"}}
-        >
+      <button
+        type="button"
+        className="text-white bg-gray-800 mt-auto hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mb-4 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+        style={{ fontFamily: "LOGO" }}
+        onClick={handleApply}
+      >
         Apply
       </button>
     </div>

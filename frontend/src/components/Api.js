@@ -64,3 +64,16 @@ export const fetchCutoffFormValues = async () => {
     }
 };
 
+export const fetchDefaultWeights = async () => {
+    try {
+        // Fetch data from API
+        const response = await fetch("http://localhost:8000/api/getDefaultWeights");
+        const data = await response.json();
+        // console.log("->>>>>>>", data);
+        return data;
+    } catch (error) {
+        console.error("Error fetching toggle data:", error);
+        return [];
+    }
+};
+
