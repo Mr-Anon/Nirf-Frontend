@@ -5,10 +5,10 @@ import { FaConnectdevelop } from "react-icons/fa6"
 // import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from '@mui/icons-material/Login';
 import AddchartIcon from '@mui/icons-material/Addchart';
-
+import RuleIcon from '@mui/icons-material/Rule';
+import HomeIcon from '@mui/icons-material/Home';
 
 const Header = ({ onOpenModal }) => {
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate()
   const fetchData = async () => {
     // const data = await fetchColleges();
@@ -28,6 +28,9 @@ const Header = ({ onOpenModal }) => {
   const handleLogin = () => {
     navigate("/form");
   };
+  const handleApprovals = () => {
+    navigate("/approvals");
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("isloggedin");
@@ -41,7 +44,7 @@ const Header = ({ onOpenModal }) => {
     <header className="header">
       <div className="logo-container">
         <FaConnectdevelop style={{ fontSize: '35px' }} />
-        <div className="logo-text">
+        <div className="logo-text" onClick={()=>navigate("/")}>
           <span>Find</span>
           <span>My College</span>
         </div>
@@ -59,14 +62,27 @@ const Header = ({ onOpenModal }) => {
         ) : (
           isAdmin ? (
             // if user is admin
-            <div className="login_header">
-              <button className="login"
-                onClick={handleLogout}
-              >
-                <LoginIcon />
-                Logout
-              </button>
-            </div>
+              <div className="login_header">
+                <div className="login_header_icon">
+                  <button
+                    className="login"
+                    // className="px-4 py-2 bg-blue-600 text-white rounded"
+                    onClick={handleApprovals}
+                  >
+                    <RuleIcon />
+                    Approvals
+                  </button>
+                </div>
+                <div className="login_header_after">
+                  <button className="login"
+                    onClick={handleLogout}
+                  >
+                    <LoginIcon />
+                    Logout
+                  </button>
+                </div>
+              </div>
+
           ) : (
             // if user is not admin
             <div className="login_header">
