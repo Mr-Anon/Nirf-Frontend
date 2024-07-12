@@ -10,19 +10,12 @@ import HomeIcon from '@mui/icons-material/Home';
 
 const Header = ({ onOpenModal }) => {
   const navigate = useNavigate()
-  const fetchData = async () => {
-    // const data = await fetchColleges();
-    // setColleges(data);
-    // setPending(false);
-  };
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [isloggedin, setIsloggedin] = useState(null);
 
   useEffect(() => {
-    fetchData();
-    // console.log("hello i am here");
-    console.log(localStorage.getItem("isAdmin"));
     setIsAdmin(localStorage.getItem("isAdmin"));
-    console.log(isAdmin);
-
+    setIsloggedin(localStorage.getItem("isloggedin"));
   }, []);
 
   const handleLogin = () => {
@@ -38,13 +31,11 @@ const Header = ({ onOpenModal }) => {
     localStorage.removeItem("token");
     window.location.reload();
   };
-  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
-  const [isloggedin, setIsloggedin] = useState(localStorage.getItem("isloggedin"));
   return (
     <header className="header">
       <div className="logo-container">
         <FaConnectdevelop style={{ fontSize: '35px' }} />
-        <div className="logo-text" onClick={()=>navigate("/")}>
+        <div className="logo-text" onClick={() => navigate("/")}>
           <span>Find</span>
           <span>My College</span>
         </div>
@@ -60,31 +51,8 @@ const Header = ({ onOpenModal }) => {
             </button>
           </div>
         ) : (
-          isAdmin ? (
+          isAdmin === "false" ? (
             // if user is admin
-              <div className="login_header">
-                <div className="login_header_icon">
-                  <button
-                    className="login"
-                    // className="px-4 py-2 bg-blue-600 text-white rounded"
-                    onClick={handleApprovals}
-                  >
-                    <RuleIcon />
-                    Approvals
-                  </button>
-                </div>
-                <div className="login_header_after">
-                  <button className="login"
-                    onClick={handleLogout}
-                  >
-                    <LoginIcon />
-                    Logout
-                  </button>
-                </div>
-              </div>
-
-          ) : (
-            // if user is not admin
             <div className="login_header">
               <div className="login_header_icon">
                 <button
@@ -106,6 +74,29 @@ const Header = ({ onOpenModal }) => {
                 </button>
               </div>
             </div>
+          ) : (
+            // if user is not admin
+            <div className="login_header">
+              <div className="login_header_icon">
+                <button
+                  className="login"
+                  // className="px-4 py-2 bg-blue-600 text-white rounded"
+                  onClick={handleApprovals}
+                >
+                  <RuleIcon />
+                  Approvals
+                </button>
+              </div>
+              <div className="login_header_after">
+                <button className="login"
+                  onClick={handleLogout}
+                >
+                  <LoginIcon />
+                  Logout
+                </button>
+              </div>
+            </div>
+
 
           )
         )}
